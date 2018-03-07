@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<!--加载属性文件 -->
+	<properties resource="mybatis/generator/generatorConfig.properties" />
+	<context id="context1" targetRuntime="MyBatis3">
+		<plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+		<plugin type="com.simplework.business.iframework.mybatis.generator.GenReplaceMapperToDaoPlugin">
+			<property name="mapperSuffix" value="Dao" />
+		</plugin>
+		<!-- 实现自定义的代码生成器plugin -->
+		<plugin type="com.simplework.business.iframework.mybatis.generator.GenMapperPlugin">
+			<property name="mapperClass" value="com.simplework.business.iframework.dao.CrudDao" />
+		</plugin>
+		<plugin type="com.simplework.business.iframework.mybatis.generator.GenXmlDaoPlugin" />
+		<plugin type="com.simplework.business.iframework.mybatis.generator.GenServicePlugin">
+			<property name="serviceSuffix" value="Service" />
+			<property name="pojoPackage" value="${modelPackage}"></property>
+			<property name="targetPackage" value="${rpcPackage}"></property>
+			<property name="targetProject" value="src/main/java/"></property>
+		</plugin>
+		<plugin type="com.simplework.business.iframework.mybatis.generator.GenServiceImplPlugin">
+			<property name="daoSuffix" value="Dao" />
+			<property name="superClass" value="com.simplework.business.iframework.bo.CrudBo"/>
+			<property name="rpcServiceSuffix" value="Service"/>
+			<property name="rpcPackage" value="${rpcPackage}"/>
+			<property name="pojoPackage" value="${modelPackage}"></property>
+			<property name="targetPackage" value="${servicePackage}"></property>
+			<property name="targetProject" value="src/main/java/"></property>
+		</plugin>
+		<commentGenerator type="com.simplework.business.iframework.mybatis.generator.GenCommentGenerator">
+		</commentGenerator>
+		<!--<commentGenerator>-->
+			<!--<property name="suppressDate" value="true" />-->
+			<!--&lt;!&ndash; 是否去除自动生成的注释 true：是 ： false:否 &ndash;&gt;-->
+			<!--<property name="suppressAllComments" value="true" />-->
+		<!--</commentGenerator>-->
+
+		<!-- 数据库连接URL，用户名，密码 -->
+		<jdbcConnection driverClass="${driverClass}" connectionURL="${connectionURL}" userId="${user}" password="${password}" />
+		<!--生成模型的包名和位置 -->
+		<javaModelGenerator targetPackage="${modelPackage}" targetProject="src/main/java/">
+			<property name="trimStrings" value="true" />
+			<property name="rootClass" value="com.simplework.business.iframework.pojo.BasePojo"/>
+		</javaModelGenerator>
+		<!--映射文件的包名和位置 -->
+		<sqlMapGenerator targetPackage="${sqlMapperPackage}" targetProject="src/main/java/" />
+		<!--DAO的包名和位置 -->
+		<javaClientGenerator targetPackage="${daoMapperPackage}" targetProject="src/main/java/" type="XMLMAPPER" />
+		<!--要生成哪些表 -->
+		<table tableName="user" domainObjectName="User" enableSelectByExample="false" enableDeleteByExample="false"
+			   enableCountByExample="false" enableUpdateByExample="false"
+			   selectByExampleQueryId="false">
+		</table>
+	</context>
+</generatorConfiguration>
